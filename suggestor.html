@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Find What You Need</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-6">
+  <!-- Top Ad Spot -->
+  <div class="mb-4 w-full max-w-xl text-center text-sm text-gray-500">
+    <p>Ad Spot: <a href="#" class="text-blue-500 underline">Your Ad Here (Top Banner)</a></p>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-lg p-8 w-full max-w-xl">
+    <h1 class="text-2xl font-bold mb-4 text-center">What are you looking for?</h1>
+    <input 
+      id="userInput"
+      type="text" 
+      placeholder="e.g. free video editor, cheap hosting, coding tutorials" 
+      class="w-full p-3 border border-gray-300 rounded-xl mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+    <button 
+      onclick="suggestSites()"
+      class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-xl"
+    >
+      Show Suggestions
+    </button>
+
+    <!-- Mid Ad Spot -->
+    <div class="my-6 text-center text-sm text-gray-500">
+      <p>Ad Spot: <a href="#" class="text-blue-500 underline">Your Ad Here (Mid Section)</a></p>
+    </div>
+
+    <div id="suggestions" class="mt-6 space-y-3"></div>
+
+    <!-- Bottom Ad Spot -->
+    <div class="mt-10 text-center text-sm text-gray-500">
+      <p>Ad Spot: <a href="#" class="text-blue-500 underline">Your Ad Here (Bottom Banner)</a></p>
+    </div>
+  </div>
+
+  <!-- Footer Ad Spot -->
+  <div class="mt-6 w-full max-w-xl text-center text-sm text-gray-500">
+    <p>Ad Spot: <a href="#" class="text-blue-500 underline">Your Ad Here (Footer)</a></p>
+  </div>
+
+  <script>
+    function suggestSites() {
+      const input = document.getElementById('userInput').value.toLowerCase();
+      const suggestionsDiv = document.getElementById('suggestions');
+      suggestionsDiv.innerHTML = '';
+
+      const keywords = [
+        {
+          match: ['video', 'editor'],
+          links: [
+            { name: 'CapCut (Free Video Editor)', url: 'https://www.capcut.com/' },
+            { name: 'Clipchamp', url: 'https://clipchamp.com/' }
+          ]
+        },
+        {
+          match: ['cheap', 'hosting'],
+          links: [
+            { name: 'Hostinger', url: 'https://www.hostinger.com/' },
+            { name: 'Bluehost', url: 'https://www.bluehost.com/' }
+          ]
+        },
+        {
+          match: ['coding', 'tutorial'],
+          links: [
+            { name: 'freeCodeCamp', url: 'https://www.freecodecamp.org/' },
+            { name: 'The Odin Project', url: 'https://www.theodinproject.com/' }
+          ]
+        }
+      ];
+
+      let found = false;
+      keywords.forEach(entry => {
+        if (entry.match.some(word => input.includes(word))) {
+          found = true;
+          entry.links.forEach(link => {
+            const a = document.createElement('a');
+            a.href = link.url;
+            a.target = '_blank';
+            a.className = 'block bg-gray-200 hover:bg-gray-300 p-3 rounded-xl text-blue-800 font-medium';
+            a.innerText = link.name;
+            suggestionsDiv.appendChild(a);
+          });
+        }
+      });
+
+      if (!found) {
+        suggestionsDiv.innerHTML = '<p class="text-center text-gray-600">No suggestions found for that query.</p>';
+      }
+    }
+  </script>
+</body>
+</html>
+
